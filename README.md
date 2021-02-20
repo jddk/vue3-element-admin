@@ -1,6 +1,6 @@
-# vue3-typescript-element-admin
+# vue3-element-admin
 
-技术栈：vue3 + typescript + element-plus
+技术栈：vue3 + element-plus
 
 ## 项目预览
 
@@ -21,7 +21,7 @@ npm install -g @vue/cli
 
 > 本项目参考 vue-element-admin 项目开发 https://panjiachen.github.io/vue-element-admin-site/zh/guide/
 
-vue3-typescript-element-admin 是一个后台前端解决方案，它基于 vue3、typescript 和 element-plus 实现。
+vue3-element-admin 是一个后台前端解决方案，它基于 vue3、typescript 和 element-plus 实现。
 它使用了最新的前端技术栈，
 
 ### 目录结构
@@ -49,10 +49,10 @@ vue3-typescript-element-admin 是一个后台前端解决方案，它基于 vue3
 
 ```
 # 克隆项目
-git clone https://github.com/jddk/vue3-typescript-element-admin
+git clone https://github.com/jddk/vue3-element-admin
 
 # 进入项目目录
-cd vue3-typescript-element-admin
+cd vue3-element-admin
 
 # 安装依赖
 npm install
@@ -140,7 +140,7 @@ npm run serve
 
 ```javascript
 // 监听路由变化
-onBeforeRouteUpdate((to: any) => {
+onBeforeRouteUpdate((to) => {
   addTags(to);
 });
 

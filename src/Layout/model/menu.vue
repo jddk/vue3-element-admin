@@ -1,7 +1,7 @@
 <!--
  * @name: 
  * @Date: 2020-11-27 11:15:08
- * @LastEditTime: 2022-03-14 00:00:37
+ * @LastEditTime: 2022-03-14 00:53:19
  * @FilePath: \vue3-element-admin\src\Layout\model\menu.vue
  * @permission: 
 -->
@@ -30,12 +30,31 @@ import mdMenuItem from "./menu-item.vue";
 import mdLogo from "./logo";
 import Bus from "./bus";
 
-// 将路由转成树
-function routesToTree() {
+// 数组转树
+function arrayToTree(items) {
+  console.log(items, "===");
+  items.forEach(item => {
+    items.forEach(cell => {
+      //parentId为null表示没有父节点  即根节点
+      if (item.meta.parent !== null && item.meta.parent === cell.name) {
+        if (!(cell.children instanceof Array)) {
+          // children初始化
+          cell.children = [];
+        }
+        cell.children.push(item);
+      }
+    });
+  });
+  // 返回tree
+  return items.filter(atom => !atom.meta.parent);
+}
+
+// 获取路由path为'/'下的数组, 并判断有无权限
+function getRouteMenus() {
+  let roles = ["erp.rent"];
   const router = useRouter();
   const routes = router.options.routes;
   let menus = [];
-  let treeMenus = [];
   for (let i = 0; i < routes.length; i++) {
     if (routes[i].path === "/") {
       const children = routes[i].children || [];
@@ -50,19 +69,18 @@ function routesToTree() {
     }
   }
 
-  menus.forEach(item => {
-    menus.forEach(cell => {
-      if (item.meta && item.meta.parent === cell.name) {
-        cell.children = cell.children || [];
-        cell.children.push(item);
-      }
-    });
+  // 权限判断，如果没有授权，直接返回，如果有授权并且不在权限列表中则不显示
+  let arr = menus.filter(item => {
+    return !item.meta.policy || roles.includes(item.meta.policy);
   });
-  treeMenus = menus.filter(item => {
-    if (item.meta) {
-      return !item.meta.parent;
-    }
-  });
+  return arr;
+}
+
+// 将路由转成树
+function routesToTree() {
+  let menus = getRouteMenus();
+  let treeMenus = arrayToTree(menus);
+
   return treeMenus;
 }
 export default {

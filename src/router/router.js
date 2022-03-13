@@ -1,7 +1,7 @@
 /*
  * @name:
  * @Date: 2020-11-27 09:49:28
- * @LastEditTime: 2022-03-13 23:58:05
+ * @LastEditTime: 2022-03-14 00:50:10
  * @FilePath: \vue3-element-admin\src\router\router.js
  * @permission:
  */
@@ -33,7 +33,7 @@ const routes = [
         path: "/rent",
         name: "rent",
         component: () => import("./Empty.vue"),
-        meta: { title: "租赁管理", icon: "index" }
+        meta: { title: "租赁管理", icon: "index", policy: "erp.rent" }
       },
       {
         path: "/rent/order",
@@ -57,7 +57,7 @@ const routes = [
         path: "/setting/webApi",
         name: "webApi",
         component: () => import("@/views/setting/webApi/webApi.vue"),
-        meta: { title: "接口文档", parent: "setting" }
+        meta: { title: "接口文档", parent: "setting", policy: "erp.webApi" }
       },
       {
         path: "/setting/permission",

@@ -1,12 +1,13 @@
 <!--
  * @name: 
  * @Date: 2020-11-27 11:15:08
- * @LastEditTime: 2021-02-20 13:42:17
- * @FilePath: \ai_cloud\src\Layout\model\menu.vue
+ * @LastEditTime: 2022-03-14 00:00:37
+ * @FilePath: \vue3-element-admin\src\Layout\model\menu.vue
  * @permission: 
 -->
 <template>
   <div class="menu">
+    <mdLogo :collapse="isCollapse" />
     <el-menu
       :default-active="currentRoute"
       :router="true"
@@ -26,6 +27,7 @@
 import { ref, reactive, onMounted, computed } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import mdMenuItem from "./menu-item.vue";
+import mdLogo from "./logo";
 import Bus from "./bus";
 
 // 将路由转成树
@@ -37,7 +39,7 @@ function routesToTree() {
   for (let i = 0; i < routes.length; i++) {
     if (routes[i].path === "/") {
       const children = routes[i].children || [];
-      menus = children.map((item) => {
+      menus = children.map(item => {
         return {
           path: item.path,
           name: item.name,
@@ -48,15 +50,15 @@ function routesToTree() {
     }
   }
 
-  menus.forEach((item) => {
-    menus.forEach((cell) => {
+  menus.forEach(item => {
+    menus.forEach(cell => {
       if (item.meta && item.meta.parent === cell.name) {
         cell.children = cell.children || [];
         cell.children.push(item);
       }
     });
   });
-  treeMenus = menus.filter((item) => {
+  treeMenus = menus.filter(item => {
     if (item.meta) {
       return !item.meta.parent;
     }
@@ -65,7 +67,7 @@ function routesToTree() {
 }
 export default {
   name: "app-menu",
-  components: { mdMenuItem },
+  components: { mdMenuItem, mdLogo },
   setup() {
     // 1、选择路由
     const router = useRouter();
@@ -95,9 +97,11 @@ export default {
 <style lang="scss" scoped>
 .menu {
   box-shadow: 2px 2px 2px #f0f0f0;
+  position: relative;
+  padding-top: 50px;
 }
 .el-menu {
-  height: 100vh;
+  height: calc(100vh - 50px);
   overflow-y: auto;
 }
 .el-menu:not(.el-menu--collapse) {
@@ -106,7 +110,7 @@ export default {
 .menu {
   // 整个滚动条
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 0px;
     background: #304156;
   }
 

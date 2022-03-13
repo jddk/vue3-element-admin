@@ -1,8 +1,8 @@
 /*
  * @name:
  * @Date: 2020-11-27 09:49:28
- * @LastEditTime: 2021-02-20 13:39:57
- * @FilePath: \ai_cloud\src\router\router.js
+ * @LastEditTime: 2022-03-13 23:58:05
+ * @FilePath: \vue3-element-admin\src\router\router.js
  * @permission:
  */
 import { createRouter, createWebHashHistory } from "vue-router";
@@ -21,7 +21,7 @@ const routes = [
     path: "/",
     name: "home",
     component: Layout,
-    redirect: "home",
+    redirect: "/home",
     children: [
       {
         path: "/home",

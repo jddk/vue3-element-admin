@@ -1,8 +1,8 @@
 <!--
  * @name: 
  * @Date: 2020-12-01 17:46:51
- * @LastEditTime: 2021-02-20 13:42:29
- * @FilePath: \ai_cloud\src\Layout\model\nav.vue
+ * @LastEditTime: 2022-03-13 23:30:50
+ * @FilePath: \vue3-element-admin\src\Layout\model\nav.vue
  * @permission: 
 -->
 <template>
@@ -11,13 +11,13 @@
       v-for="(tag, i) in data.tags"
       :key="tag.path"
       size="medium"
-      :closable="!tag.meta.affix"
+      :closable="!tag?.meta?.affix"
       :effect="tag.effect"
       :type="tag.type"
       @close="toClose(i, tag)"
       @click="toClick(tag)"
     >
-      {{ tag.meta.title }}
+      {{ tag?.meta?.title }}
     </el-tag>
   </div>
 </template>
@@ -56,7 +56,7 @@ export default {
     }
     // 2、跳转
     function toClick(tag) {
-      data.tags.forEach((item) => {
+      data.tags.forEach(item => {
         if (tag.path === item.path) {
           item.type = "success";
           item.effect = "dark";
@@ -76,7 +76,7 @@ export default {
     function addTags(to) {
       // 如果存在直接结束
       let hasThisTag = false;
-      data.tags.forEach((item) => {
+      data.tags.forEach(item => {
         if (to.path === item.path) {
           item.type = "success";
           item.effect = "dark";
@@ -107,13 +107,21 @@ export default {
     }
 
     // 监听路由变化
-    onBeforeRouteUpdate((to) => {
+    onBeforeRouteUpdate(to => {
       addTags(to);
     });
 
     // 初始化时添加路由标签
     onMounted(() => {
-      addTags(route);
+      window.addEventListener("beforeunload", () => {
+        sessionStorage.setItem("tabViews", JSON.stringify(data.tags));
+      });
+      let tags = JSON.parse(sessionStorage.getItem("tabViews"));
+      if (tags instanceof Array && tags.length) {
+        data.tags = tags;
+      } else {
+        addTags(route);
+      }
     });
 
     return { data, toClose, toClick };

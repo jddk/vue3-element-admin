@@ -1,7 +1,7 @@
 <!--
  * @name: 
  * @Date: 2020-12-01 17:46:51
- * @LastEditTime: 2022-03-13 23:30:50
+ * @LastEditTime: 2022-03-13 23:37:12
  * @FilePath: \vue3-element-admin\src\Layout\model\nav.vue
  * @permission: 
 -->
@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { reactive, onMounted } from "vue";
+import { reactive, onMounted, onBeforeUnmount } from "vue";
 import { onBeforeRouteUpdate, useRouter, useRoute } from "vue-router";
 import Bus from "./bus";
 export default {
@@ -109,6 +109,11 @@ export default {
     // 监听路由变化
     onBeforeRouteUpdate(to => {
       addTags(to);
+    });
+
+    // 跳转到登录页时清空标签
+    onBeforeUnmount(() => {
+      sessionStorage.removeItem("tabViews");
     });
 
     // 初始化时添加路由标签
